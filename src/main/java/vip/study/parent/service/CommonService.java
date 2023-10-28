@@ -2,8 +2,9 @@ package vip.study.parent.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import vip.study.parent.api.model.TreeNode;
 
-import java.util.Arrays;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -118,5 +119,125 @@ public class CommonService {
             a[L + l] = b[l];
         }
 
+    }
+
+    // ----------------------- 二叉树构建
+    public TreeNode initBtree(int[] elements, int size){
+
+        if(size < 1){
+            return null;
+        }
+        TreeNode[] nodes = new TreeNode[size];
+        //将int数据转换为TreeNode节点
+        for (int i = 0; i < size; i++) {
+            if (elements[i] == 0) {
+                nodes[i] = null;
+            } else {
+                nodes[i]  = new TreeNode(elements[i]);
+            }
+        }
+        Deque<TreeNode> q = new LinkedList<>();
+
+        TreeNode node = new TreeNode();
+        TreeNode head = nodes[0];
+        q.addFirst(nodes[0]);
+        int index = 1;
+
+        while(index < size){
+            node = q.removeFirst();//抛出队首元素
+            q.addLast(nodes[index++]);//加到队尾
+            node.left = q.peekLast();
+            if(index >= size){
+                break;
+            }
+            q.addLast(nodes[index++]);
+            node.right = q.peekLast();
+        }
+        return head;
+    }
+
+    // -----------------------二叉树前序遍历
+    public List<Integer> preOrderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        preOrder(root, res);
+        return res;
+    }
+
+    // 递归查询：1、确定参数和返回值 2、确定终止条件 3、确定单层递归逻辑
+    public void preOrder(TreeNode cur, List<Integer> res){
+        // 终止条件
+        if(cur == null) return; // 当前节点是否为空
+        //单层逻辑
+        res.add(cur.val); // 中
+        preOrder(cur.left, res); // 左
+        preOrder(cur.right, res); // 右
+    }
+
+    // -----------------------二叉树中序遍历
+    public List<Integer> middOrderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        middOrder(root, res);
+        return res;
+    }
+
+    // 递归查询：1、确定参数和返回值 2、确定终止条件 3、确定单层递归逻辑
+    public void middOrder(TreeNode cur, List<Integer> res){
+        // 终止条件
+        if(cur == null) return; // 当前节点是否为空
+        //单层逻辑
+        middOrder(cur.left, res); // 左
+        res.add(cur.val); // 中
+        middOrder(cur.right, res); // 右
+    }
+
+    // -----------------------二叉树后序遍历
+    public List<Integer> lastOrderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        lastOrder(root, res);
+        return res;
+    }
+
+    // 递归查询：1、确定参数和返回值 2、确定终止条件 3、确定单层递归逻辑
+    public void lastOrder(TreeNode cur, List<Integer> res){
+        // 终止条件
+        if(cur == null) return; // 当前节点是否为空
+        //单层逻辑
+        lastOrder(cur.right, res); // 右
+        res.add(cur.val); // 中
+        lastOrder(cur.left, res); // 左
+    }
+
+    // ----------------------- 二叉树层次遍历
+    public List<List<Integer>> res = new ArrayList<List<Integer>>(); // 定义一个动态 二维 Integer 列表 res
+
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        res = new ArrayList<List<Integer>>();
+        queueTravel(root);
+        return res;
+    }
+
+    // 借助 队列 实现遍历：按层次自上而下，从左到右遍历
+    public void queueTravel(TreeNode root){
+
+        if(root == null) return; // 终止条件
+        // 定义队列
+        Deque<TreeNode> que = new LinkedList<>();
+        que.offer(root); // 根节点入队
+
+        while(!que.isEmpty()){ // 遍历层：自上而下
+            // 定义存 每层元素Integer 的列表
+            List<Integer> item = new LinkedList<>();
+            int len = que.size(); // que.size是动态大小
+
+            while(len -- > 0){ // 遍历每层的节点：从左到右
+                TreeNode tempNode = que.poll(); // 出队
+                item.add(tempNode.val);
+                // 左节点
+                if(tempNode.left != null) que.offer(tempNode.left);
+                // 右节点
+                if(tempNode.right != null) que.offer(tempNode.right);
+            }
+            res.add(item); // 存 每层的节点元素
+        }
     }
 }

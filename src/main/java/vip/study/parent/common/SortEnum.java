@@ -34,7 +34,7 @@ public enum SortEnum {
 
     public static int byDesc(String desc) {
         for (SortEnum value : values()) {
-            if (value.desc == desc) return value.getValue();
+            if (value.desc.equals(desc)) return value.getValue();
         }
         return -1;
     }
