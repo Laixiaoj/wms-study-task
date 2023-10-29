@@ -118,5 +118,7 @@
     <orderEntry type="library" name="Maven: io.springfox:springfox-bean-validators:2.10.5" level="project" />
     <orderEntry type="library" name="Maven: io.springfox:springfox-spring-webmvc:2.10.5" level="project" />
     <orderEntry type="library" name="Maven: com.github.xiaoymin:knife4j-spring-ui:2.0.8" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.13.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:2.2" level="project" />
   </component>
 </module>
