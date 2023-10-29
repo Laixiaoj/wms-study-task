@@ -2,6 +2,7 @@ package vip.study.parent.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import vip.study.parent.api.model.LinkNode;
 import vip.study.parent.api.model.TreeNode;
 
 import java.util.*;
@@ -239,5 +240,99 @@ public class CommonService {
             }
             res.add(item); // 存 每层的节点元素
         }
+    }
+
+    // 链表: 新增节点
+    public LinkNode addIndex(LinkNode head, int index, int value){
+
+        LinkNode pre = head;
+        int size = 0;
+        while (pre != null){
+            size++;
+            pre = pre.next;
+        }
+
+        if(index > size){
+            log.info("当前下标[{}]大于链表长度[{}], 默认插到链表尾", index, size);
+            index = size + 1;
+        }
+        else if(index <= 1){
+            log.info("当前下标[{}]<= 1 , 插入链表头", index);
+            LinkNode newNode = new LinkNode(value);
+            newNode.next = head;
+            return newNode;
+        }
+
+        pre = new LinkNode(-1);
+        pre.next = head;
+
+        for (int i = 1; i < index; i++) {
+            pre = pre.next;
+        }
+
+        LinkNode newNode = new LinkNode(value);
+        newNode.next = pre.next;
+        pre.next = newNode;
+
+        return head;
+    }
+
+    // 链表: 删除节点
+    public LinkNode deleteIndex(LinkNode head, int index) {
+
+        LinkNode pre = head;
+        int size = 0;
+        while (pre != null){
+            size++;
+            pre = pre.next;
+        }
+
+        if(index > size){
+            log.info("当前下标[{}]大于链表长度[{}], 默认删除链表尾", index, size);
+            index = size;
+        }
+        else if(index <= 1){
+            log.info("当前下标[{}]<= 1 , 删除链表头", index);
+            head = head.next;
+            return head;
+        }
+
+        pre = new LinkNode(-1);
+        pre.next = head;
+        for (int i = 1; i < index; i++) {
+            pre = pre.next;
+        }
+
+        pre.next = pre.next.next;
+        return head;
+    }
+
+    // 链表: 更新节点
+    public LinkNode updateIndex(LinkNode head, int index, int value) {
+        LinkNode pre = head;
+        int size = 0;
+        while (pre != null){
+            size++;
+            if(pre.next == null){
+                break;
+            }
+            pre = pre.next;
+        }
+
+        if(index > size){
+            log.info("当前下标[{}]大于链表长度[{}], 默认更新链表尾", index, size);
+            index = size;
+        }
+        else if(index <= 0){
+            log.info("当前下标[{}]<= 0 , 更新链表头", index);
+            index = 1;
+        }
+
+        pre = head;
+        for (int i = 1; i < index; i++) {
+            pre = pre.next;
+        }
+        pre.val = value;
+        return head;
     }
 }

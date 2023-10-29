@@ -5,12 +5,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit4.SpringRunner;
 import vip.study.parent.api.model.TreeNode;
 import vip.study.parent.common.SortEnum;
+import vip.study.parent.service.AlgorithmService;
 import vip.study.parent.service.CommonService;
 import java.util.Arrays;
 
@@ -23,6 +21,9 @@ public class AsyncServiceDemo {
 
     @Autowired
     CommonService commonService;
+
+    @Autowired
+    AlgorithmService algorithmService;
 
     @Test
     public void testAsyncService(){
@@ -52,5 +53,12 @@ public class AsyncServiceDemo {
         int[] elements = {3,9,20,0,0,15,7};//0代表空
         TreeNode root = commonService.initBtree(elements,7);
         log.info("{}", root);
+    }
+
+    @Test
+    public void case3(){
+        int[] elements = {3,9,20,0,0,15,7};//0代表空
+
+
     }
 }

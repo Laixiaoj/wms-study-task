@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import vip.study.parent.api.model.LinkNode;
 import vip.study.parent.api.model.Result;
 import vip.study.parent.api.model.TreeNode;
 import vip.study.parent.common.OrderSortEnum;
@@ -77,6 +78,44 @@ public class AlgorithmService {
         return result;
     }
 
+    public Result linkNodeStruct(int[] list, int index, int value, String type) {
+        Result result = new Result(200, "success");
+        Map<String, String> res = new HashMap<>();
+        LinkNode head = new LinkNode(list[0]);
+        LinkNode cur = head;
+        for (int i = 1; i < list.length; i++) {
+            cur.next =  new LinkNode(list[i]);
+            cur = cur.next;
+        }
 
+        res.put("当前链表", Arrays.toString(list));
+        log.info("初始化构建的链表: [{}]", Arrays.toString(list));
 
+        if(type == null) {
+            return result;
+        }
+
+        if(type.equals("插入")){
+            head = commonService.addIndex(head, index, value);
+            log.info("新增节点Node[{}]后的链表: [{}]", value, head.toString());
+        }
+        else if(type.equals("删除")){
+            head = commonService.deleteIndex(head, index);
+            log.info("删除节点Node[{}]后的链表: [{}]", value, head.toString());
+        }
+        else if(type.equals("更新")){
+            head = commonService.updateIndex(head, index, value);
+            log.info("更新节点Node[{}]后的链表: [{}]", value, head.toString());
+        }
+
+        cur = head;
+        List<Integer> roots = new ArrayList<>();
+        while(cur != null){
+            roots.add(cur.val);
+            cur = cur.next;
+        }
+        res.put("调整链表", roots.toString());
+        result.setResponse(res);
+        return result;
+    }
 }

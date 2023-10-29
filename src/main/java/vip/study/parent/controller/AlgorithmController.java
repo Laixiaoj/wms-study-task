@@ -25,12 +25,13 @@ public class AlgorithmController {
     private static final String NUMS = "5,3,7,1,6,9,8,2,4";
     private static final String SORTTYPE = "选择排序,插入排序,冒泡排序,快速排序,归并排序";
     private static final String ORDERTYPE = "前序遍历,中序遍历,后序遍历,层次遍历";
+    private static final String COMMONTYPE = "插入,删除,更新";
 
     @Autowired // 配合 @Service
     AlgorithmService algorithmService;
 
 
-    @ApiOperation(value = "排序使用", notes = "@vincent.lai")
+    @ApiOperation(value = "常用排序", notes = "@vincent.lai")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "list", paramType = "query", dataType = "int[]", defaultValue = NUMS),
             @ApiImplicitParam(name = "types", dataType = "String", paramType = "query", allowableValues = SORTTYPE, allowMultiple = true)
@@ -42,7 +43,7 @@ public class AlgorithmController {
         return result;
     }
 
-    @ApiOperation(value = "二叉树遍历使用", notes = "@vincent.lai")
+    @ApiOperation(value = "二叉树遍历", notes = "@vincent.lai")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "list", paramType = "query", dataType = "int[]", defaultValue = NUMS),
             @ApiImplicitParam(name = "types", dataType = "String", paramType = "query", allowableValues = ORDERTYPE, allowMultiple = true)
@@ -51,6 +52,20 @@ public class AlgorithmController {
     public Result binaryTreeOrder(int[] list, String[] types){
         log.info("AlgorithmController.binaryTreeOrder request: {}, {}", Arrays.toString(list), types);
         Result result = algorithmService.binaryTreeOrder(list, types);
+        return result;
+    }
+
+    @ApiOperation(value = "链表构建", notes = "@vincent.lai")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "list", paramType = "query", dataType = "int[]", defaultValue = NUMS),
+            @ApiImplicitParam(name = "index", paramType = "query", dataType = "int", defaultValue = "-1"),
+            @ApiImplicitParam(name = "value", paramType = "query", dataType = "int", defaultValue = "1"),
+            @ApiImplicitParam(name = "type", paramType = "query", dataType = "String", allowableValues = COMMONTYPE)
+    })
+    @RequestMapping(value = "/linkNodeStruct", method = RequestMethod.GET)
+    public Result linkNodeStruct(int[] list, int index, int value, String type){
+        log.info("AlgorithmController.linkNodeStruct request: {}, {}, {}", Arrays.toString(list), index, value);
+        Result result = algorithmService.linkNodeStruct(list, index, value, type);
         return result;
     }
 
